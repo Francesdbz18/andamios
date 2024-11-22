@@ -4,14 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountBox
@@ -30,6 +38,8 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
+import com.chesco.andamios.ui.theme.AppTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -40,26 +50,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.chesco.andamios.ui.theme.AndamiosTheme
+import coil.compose.AsyncImage
+import com.chesco.andamios.ui.theme.AppTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AndamiosTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            AppTheme {
+                Andamio()
             }
         }
     }
@@ -82,8 +94,8 @@ fun ScaffoldExample() {
         topBar = {
             TopAppBar(
                 colors = topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    containerColor = colorScheme.primaryContainer,
+                    titleContentColor =  colorScheme.primary,
                 ),
                 title = {
                     Text("Top app bar")
@@ -92,8 +104,8 @@ fun ScaffoldExample() {
         },
         bottomBar = {
             BottomAppBar(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary,
+                containerColor = colorScheme.primaryContainer,
+                contentColor = colorScheme.primary,
             ) {
                 Text(
                     modifier = Modifier
@@ -138,9 +150,6 @@ fun Andamio() {
         // Barra inferior
         bottomBar = { CustomBottomBar() },
 
-        // Botón flotante personalizado
-        floatingActionButton = { CustomFAB() },
-
         // Contenido principal
         content = { padding ->
             CustomContent(padding)
@@ -159,7 +168,35 @@ fun CustomContent(padding: PaddingValues) {
 
         // Contenido de la aplicación
         content = {
-            Text(text = "My app content")
+            Spacer(Modifier.size(20.dp))
+            Row(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .border(1.dp, MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(20.dp))
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primaryContainer, shape = RoundedCornerShape(20.dp)),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                AsyncImage(
+                    model = "https://i.pinimg.com/1200x/9b/0f/82/9b0f823ea5aac967326634839834827d.jpg",
+                    contentDescription = "saving private azu-nyan",
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .width(100.dp)
+                        .height(90.dp)
+                        .align(Alignment.CenterVertically)
+                )
+                Column(Modifier.align(Alignment.CenterVertically) .padding(20.dp)){
+                    Text(text="saving private azu-nyan",
+                        style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        )
+                    Spacer(Modifier.size(15.dp))
+                    Text(text="naoko yamada",
+                        style = TextStyle(fontWeight = FontWeight.W300, fontSize = 20.sp)
+                        )
+                }
+            }
         }
     )
 }
@@ -201,6 +238,7 @@ fun CustomBottomBar() {
                     contentDescription = null
                 )
             }
+            CustomFAB()
         }
     }
 }
@@ -248,7 +286,7 @@ fun CustomTopBar() {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    AndamiosTheme {
+    AppTheme() {
         Andamio()
     }
 }
