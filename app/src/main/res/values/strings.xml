@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">andamios</string>
+    <string name="top_name">Mis películas</string>
+    <string name="movie_name">saving private azu-nyan</string>
+    <string name="director_name">naoko yamada</string>
 </resources>
